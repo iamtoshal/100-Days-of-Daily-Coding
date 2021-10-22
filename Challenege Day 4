@@ -1,0 +1,32 @@
+/*
+Using for loop print int numbers into words up to nine and find it is even or not at end
+*/
+
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+int main() {
+   string A[9]={"one","two","three","four","five","six","seven","eight","nine"};
+   
+   int m,n,i;
+   cin>>m;
+   cin>>n;
+   
+   for(i=m;i<=n;i++){
+       if(i<=9){
+           cout<<A[i-1]<<endl;
+       }
+       else{
+           if(i%2==0){
+               cout<<"even"<<endl;
+            }
+             else{
+                cout<<"odd"<<endl;
+              }
+       }
+       
+   }
+   
+    return 0;
+}
