@@ -1,0 +1,218 @@
+/* 
+Design a roll call list, arrange the list of
+students according to roll numbers in 
+ascending order (Use Bubble Sort)
+
+Arrange a list of students alphabetically.
+(Use Insertion sort)
+
+Arrange a list of students to find out the first 
+ten toppers from a class. (Use Quicksort)
+
+Search students according to SGPA. 
+If more than one student having the same SGPA,then 
+print a list of all students having the same SGPA.
+
+Search a particular student according to name using 
+binary search without recursion
+
+*/
+
+#include<iostream>
+using namespace std;
+struct student{ 
+  int no,sgpa;
+  string name;
+};
+void getdata(struct student t[],int n){ 
+  for(int i=0;i<n;i++){
+     cout<<"Enter the id of student :-";
+     cin>>t[i].no;
+     cout<<"Enter the name of student :-";
+     cin>>t[i].name;
+     cout<<"Enter the sgpa of "<<t[i].name<<" :-";
+     cin>>t[i].sgpa;
+ }
+}
+void swap(struct student * a, struct student * b){
+   struct student t = *a;
+    *a = *b;
+    *b = t;
+}
+void rollsort(struct student t[],int n){
+ struct student k;
+ for(int i = 0; i<n-1; i++) {
+   int flag=0;
+   for(int j = 0; j<n-1-i; j++){
+         if(t[j+1].no < t[j].no) {
+            k = t[j];
+            t[j] = t[j+1];
+            t[j+1] = k;
+            flag=1;  
+          }
+      }
+      if(flag==0) break;
+   }
+}
+void namesort(struct student t[],int n){
+	for(int i=1;i<n;i++){
+		struct student k=t[i];
+		int j=i-1;
+		while(j>=0 && k.name<t[j].name){
+		  t[j+1]=t[j];
+		  j--;
+		}
+		t[j+1]=k;
+		}
+}
+int partition (struct student t[], int low, int high){
+    int pivot = t[high].sgpa;    
+    int i = (low - 1);  
+ 
+    for (int j = low; j < high; j++){
+        if (t[j].sgpa >= pivot){
+            i++;    
+            swap(&t[i], &t[j]);
+        }
+    }
+    swap(&t[i + 1], &t[high]);
+    return (i + 1);
+}
+void display (struct student t[],int n){
+  cout<<"\n"<<"roll"<<"\t"<<"name"<<"\t"<<"sgpa"<<"\t";
+  for(int i=0;i<n;i++) {
+
+     cout<<"\n"<<t[i].no<<"\t"<<t[i].name<<"\t"<<t[i].sgpa<<"\t";
+  
+   }
+}
+void srhname(struct student t[],int n,string x){ 
+    int start =-1;
+    int end=-1;
+	int low=0;
+	int high=n-1;
+	while(low<=high){
+		int mid=(low+high)/2;
+		if(t[mid].name>x){
+			high=mid-1;
+		}
+		else if(t[mid].name==x){
+			start=mid;
+			high=mid-1;
+		}
+		else{
+			low=mid+1;
+		}
+	}
+	low=0;
+    high=n-1;
+    while(low<=high){
+		int mid=(low+high)/2;
+		if(t[mid].name>x){
+			high=mid-1;
+		}
+		else if(t[mid].name==x){
+			end=mid;
+			low=mid+1;
+		}
+		else{
+			low=mid+1;
+		}
+	}
+	if(start!=-1&&end!=-1){
+		for(int i=start;i<=end;i++){
+			
+			    cout<<"\n"<<"roll"<<"\t"<<"name"<<"\t"<<"sgpa"<<"\t";	
+	             cout<<"\n"<<t[i].no<<"\t"<<t[i].name<<"\t"<<t[i].sgpa<<"\t";
+		}
+    }
+	else{
+		 cout<<"Element is not present in array";
+	}	
+	
+    /*if (r >= l) {
+        int mid = l + (r - l) / 2;
+  
+        if (t[mid].name == x)
+            return mid;
+        if (t[mid].name > x)
+            return srhname(t, l, mid - 1, x);
+        return srhname(t, mid + 1, r, x);
+    }
+    return -1;*/
+
+}
+void sgpasort(struct student t[],int low ,int high){
+	
+    if (low < high){
+        int pi = partition( t, low, high);
+        sgpasort( t, low, pi - 1);
+        sgpasort(t, pi + 1, high);
+    }
+}
+void srhsgpa(struct student t[],int n,int v){
+	cout<<"\n"<<"roll"<<"\t"<<"name"<<"\t"<<"sgpa"<<"\t";
+	for(int i=0;i<n;i++){
+		if (t[i].sgpa==v ){
+			cout<<"\n"<<t[i].no<<"\t"<<t[i].name<<"\t"<<t[i].sgpa<<"\t";
+		}
+	}
+}
+
+int main(){   
+    int i,ch,r,l;
+    string x;
+    cout<<"Enter the no. of students :-";
+    cin>>i;
+    struct student a[i];
+    getdata(a,i);
+    do{
+     	cout<<"\n 1.display\n 2.Roll no. sort-bubble sort\n 3.Sgpa sort-quick sort\n 4.name sort-insertion sort\n 5.search name-binary search\n 6.sgpa-linear search\n 7.top 10 students  \n 0.exit";
+		cout<<"\n enter your choice: ";
+		cin>>ch;
+		switch(ch){
+			case 0:
+	  		     cout<<"progaram is termineted";
+			case 1:
+                 display(a,i);
+   		         break;
+			case 2: 
+		         rollsort(a,i);
+		         break;
+			case 3:
+			     sgpasort(a,0,i-1);
+		         break;   
+			case 4:
+			     namesort(a,i);
+			     break;
+			case 5:
+			     cout<<"/n Enter which name do you want search :-";
+                 cin>>x;
+                 namesort(a,i);
+                 srhname(a, i , x);
+                     /*  if(r == -1) { 
+                         cout << "Element is not present in array";}
+                       else{	
+                         cout<<"\n"<<"roll"<<"\t"<<"name"<<"\t"<<"sgpa"<<"\t";	
+	                      cout<<"\n"<<a[r].no<<"\t"<<a[r].name<<"\t"<<a[r].sgpa<<"\t";  }*/
+					   break;
+			case 6:
+			     cout<<"/n Enter which sgpa do you want search :-";
+		         cin>>l;
+		         srhsgpa(a,i,l);	   
+		         break;
+			case 7 :
+			     sgpasort(a,0,i-1);
+		         if (i>=10){
+    				 display(a,10);
+				 }
+				 else{
+				 	display(a,i);
+				 }		      
+		   	default :
+			   	 cout<<"\n wrong choice please enter correct one";
+		}
+	}while(ch!=0);
+	return 0;
+
+}
