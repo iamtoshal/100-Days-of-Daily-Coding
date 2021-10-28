@@ -1,0 +1,162 @@
+/* 
+
+Convert entered input into meter or centimeter as per user's convenience 
+
+*/
+
+
+#include <iostream>
+
+using namespace std;
+
+class distance2;
+
+class distance1{
+
+	private:	int meter;
+
+	public:
+
+	distance1(){
+
+		meter=0;
+
+	}
+
+	distance1(int x){
+
+		meter=x;
+
+	}
+
+	void display();
+
+	friend distance1 add(distance1,distance2);
+
+	friend distance2 add(distance2,distance1);
+
+};
+
+class distance2{
+
+	private:
+
+	int centimeter;
+
+	public:
+
+	distance2(){
+
+		centimeter=0;
+
+	}
+
+	distance2(int x){
+
+		centimeter=x;
+
+	}
+
+	void display();
+
+	friend distance1 add(distance1,distance2);
+
+	friend distance2 add(distance2,distance1);
+
+};
+
+void distance1::display(){
+
+	cout<<"\n Distance in meter is: "<<meter;
+
+	
+
+}
+
+distance1 add(distance1 x,distance2 y){
+
+	distance1 temp;
+
+	temp=x.meter+y.centimeter/100;
+
+	return temp;	
+
+}
+
+void distance2::display(){
+
+	cout<<"\n Distance in centimeter is: "<<centimeter;
+
+}
+
+distance2 add(distance2 x,distance1 y){
+
+	distance2 temp;
+
+	temp=x.centimeter+y.meter*100;
+
+	return temp;
+
+	
+
+}
+
+int main(){
+
+	int mt;
+
+	cout<<"\n Enter your number in meter: ";
+
+	cin>>mt;
+
+	
+
+	distance1 m1(mt);
+
+	distance1 m2;
+
+	m1.display();
+
+	int cm;
+
+	cout<<"\n Enter your number in centimeter: ";
+
+	cin>>cm;
+
+	distance2 c1(cm);
+
+	distance2 c2;
+
+	c1.display();
+
+	int ch;
+
+	cout<<"\n 1.In meter \n2.In CM";
+
+	cout<<"\nEnter your choice: ";
+
+	cin>>ch;
+
+	switch(ch){
+
+	
+
+	case 1:
+
+	       m2=add(m1,c1);
+
+	       m2.display();
+
+	       break;
+
+	case 2:
+
+	      c2=add(c1,m1);
+
+	      c2.display();
+
+	      break;
+
+	
+
+	}}
